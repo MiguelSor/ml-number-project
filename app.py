@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import os
 import glob
 import cv2
@@ -53,7 +53,7 @@ def home():
 
     return render_template('home.html')
 
-@app.route('/result', methods = ['POST'])
+@app.route('/result', methods = ['GET','POST'])
 def result():
     keras.backend.clear_session() 
     model = tf.keras.models.load_model('num.model')      
@@ -77,13 +77,16 @@ def result():
             imgcv = np.invert(np.array([imgcv]))
             prediction = model.predict(imgcv)
             
-            result = "The number is probably a {}".format(np.argmax(prediction))
-        
+            result = "The number is probably a {}".format(np.argmax(prediction))        
             return render_template('result.html', result = result, img = img)
+
         else:
 
             result = 'Upload number to analyse'
             return render_template('result.html', result = result)
+
+    else:
+        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(threaded=False)
