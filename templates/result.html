@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        function load() {
+            document.getElementById("loading").style.display = "block";  
+            document.getElementById("loaded").style.display = "none";  
+        }
+    </script>
+    <style>
+        body {
+            background: #eee;
+        }
+        #loading {
+            display: none;
+        }
+        #title {
+            background: #2193b0;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #6dd5ed, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            color: #ffffff;
+        }
+        form {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-center display-4" style="padding: 20px 0;" id="title">Handwriting Recogniser</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col" id="loading">
+                <h1 class="display-3 centered">Loading..</h1>
+            </div>
+            <div class="col" id="loaded">
+                <form action="/result", method="POST", enctype="multipart/form-data">
+                    <input type="file" class="form-control-file border" name="file" value="file">
+                    <br>
+                    <button type="submit" value="submit" onclick="load()">Submit</button>
+                    <br>
+                    <label for="file">Upload image</label>                
+                </form>
+
+                <img src="/static/{{img}}" alt="" width="100%" style="margin-bottom: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);">
+
+                <div style="
+                margin-bottom: 20px;
+                background-color: #313131;
+                border-radius: 5px;
+                box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+                color: #fff;
+                text-align: center;">
+                    <h2>Image is prabably a</h2>
+                    <h3>{{result}}</h3>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div> 
+    </div>
+</body>
+</html>
