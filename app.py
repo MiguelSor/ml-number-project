@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import os
+import glob
 import cv2
 from werkzeug.utils import secure_filename
 
@@ -41,11 +42,14 @@ def training():
 
     # Save model
     model.save('num.model')
-    keras.backend.clear_session() 
+    print('New model saved!')
 
 @app.route('/')
 def home():
-    #training()
+    if os.path.exists('./num.model'):
+        print('Model already exist!')
+    else:
+        training()
 
     return render_template('home.html')
 
@@ -55,24 +59,31 @@ def result():
     model = tf.keras.models.load_model('num.model')      
 
     if request.method == 'POST':
-        image = request.files['file']
+        if request.files['file']:
 
-        img = secure_filename(image.filename)      
-        path = os.path.join(r'D:\Documents\ml-number-project\static', img)   
-        image.save(os.path.join(r'D:\Documents\ml-number-project\static', img))  
-    
-        imgcv = cv2.imread(path)[:,:,0] 
-        imgcv = cv2.resize(imgcv, (28,28))   
-        imgcv = np.invert(np.array([imgcv]))
-        prediction = model.predict(imgcv)
+            image = request.files['file']
+
+            img = secure_filename(image.filename)      
+            path = os.path.join(r'D:\Documents\ml-number-project\static\uploads', img)
+            
+            folder = glob.glob(r'D:\Documents\ml-number-project\static\uploads\*')
+            for items in folder:
+                os.remove(items)
+
+            image.save(path)  
         
-        result = np.argmax(prediction)
-        print("The number is probably a {}".format(np.argmax(prediction)))
+            imgcv = cv2.imread(path)[:,:,0] 
+            imgcv = cv2.resize(imgcv, (28,28))   
+            imgcv = np.invert(np.array([imgcv]))
+            prediction = model.predict(imgcv)
+            
+            result = "The number is probably a {}".format(np.argmax(prediction))
+        
+            return render_template('result.html', result = result, img = img)
+        else:
 
-    return render_template('result.html', result = result, img = img)
-
-
-
+            result = 'Upload number to analyse'
+            return render_template('result.html', result = result)
 
 if __name__ == '__main__':
     app.run(threaded=False)
