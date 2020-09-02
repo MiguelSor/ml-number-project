@@ -56,8 +56,12 @@ def home():
 @app.route('/result', methods = ['GET','POST'])
 def result():
     keras.backend.clear_session() 
-    model = tf.keras.models.load_model('num.model')      
+    model = tf.keras.models.load_model('num.model') 
 
+    folder = glob.glob(r'D:\Documents\ml-number-project\static\uploads\*')
+    for items in folder:
+        os.remove(items)
+     
     if request.method == 'POST':
         if request.files['file']:
 
@@ -66,10 +70,6 @@ def result():
             img = secure_filename(image.filename)      
             path = os.path.join(r'D:\Documents\ml-number-project\static\uploads', img)
             
-            folder = glob.glob(r'D:\Documents\ml-number-project\static\uploads\*')
-            for items in folder:
-                os.remove(items)
-
             image.save(path)  
         
             imgcv = cv2.imread(path)[:,:,0] 
