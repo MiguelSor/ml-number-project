@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-    <h1 class="text-center display-4" style="padding: 20px 0;" id="title">Handwriting Recogniser</h1>
+    <h1 class="text-center display-4" style="padding: 20px 0;" id="title">Number (0-9) Recogniser</h1>
     <div class="container">
         <div class="row">
             <div class="col"></div>
@@ -39,9 +39,7 @@
                 <form id="loaded" action="/result", method="POST", enctype="multipart/form-data">
                     <input type="file" class="form-control-file border" name="file" value="file">
                     <br>
-                    <button class="btn btn-primary" type="submit" value="submit" onclick="load()">Submit</button>
-                    <br>
-                    <label for="file">Upload image</label>                
+                    <button class="btn btn-primary btn-block" type="submit" value="submit" onclick="load()">Submit</button>
                 </form>
             </div>
             <div class="col"></div>

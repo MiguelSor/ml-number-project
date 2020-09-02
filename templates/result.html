@@ -26,11 +26,18 @@
         }
         form {
             margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
         }
     </style>
 </head>
 <body>
-    <h1 class="text-center display-4" style="padding: 20px 0;" id="title">Handwriting Recogniser</h1>
+    <h1 class="text-center display-4" style="padding: 20px 0;" id="title">Number (0-9) Recogniser</h1>
     <div class="container">
         <div class="row">
             <div class="col"></div>
@@ -41,25 +48,13 @@
                 <form action="/result", method="POST", enctype="multipart/form-data">
                     <input type="file" class="form-control-file border" name="file" value="file">
                     <br>
-                    <button class="btn btn-primary" type="submit" value="submit" onclick="load()">Submit</button>
-                    <br>
-                    <label for="file">Upload image</label>                
+                    <button class="btn btn-primary btn-block" type="submit" value="submit" onclick="load()">Submit</button>
                 </form>
 
-                <img src="/static/uploads/{{img}}" alt="" width="100%" style="margin-bottom: 20px;
+                <img class="center" src="/static/uploads/{{img}}" alt="" style="margin-bottom: 20px;
                 border-radius: 5px;
                 box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);">
-
-                <div style="
-                margin-bottom: 20px;
-                background-color: #313131;
-                border-radius: 5px;
-                box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
-                color: #fff;
-                text-align: center;">
-                    <h3>{{result}}</h3>
-                </div>
-            </div>
+                <h3 class="text-center display-6">{{result}}</h3>            </div>
             <div class="col"></div>
         </div> 
     </div>
